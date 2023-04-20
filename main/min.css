@@ -35,20 +35,28 @@
   left: 2%;
 }
 .maincan{
-  margin-top: 5%;
-  border: 5px solid silver;
+  margin-top: 20%;
+  border: 5px solid aliceblue;
   cursor:crosshair;
   align-items: left;
-  position: absolute;
   margin-left: 5%;
 }
 #main-block{
-  width: 500px;
-  height: 500px;
-  background-color:cadetblue;
-  display: block;
+  width: 100%;
+  height: 100vh;
+  background-color:dimgray;
+  display:flex;
+  flex-direction: row-reverse;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: space-between;
+    justify-content: flex-end;
 }
 #buttons{
-  margin-left: 50%;
-  display: block;
+  margin-left: 0%;
+  display: grid;
+}
+#tip{
+  display: none;
+  color: aliceblue;
 }

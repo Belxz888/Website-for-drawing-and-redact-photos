@@ -241,12 +241,8 @@ const linewid = document.getElementById("change-line")
 const canvas = document.querySelector(".maincan")
 const retpain = document.getElementById("dissmove")
 const morecanvas = document.getElementById("more")
-morecanvas.addEventListener('click',(e)=>{
-  canvas.width =200;
-  canvas.height =200
-})
 const eraserButton = document.getElementById('smove');
-canvas.width = 200 
+canvas.width = 400 
 canvas.height = 200
 const context = canvas.getContext("2d")
 let isDrawing = false;
@@ -298,6 +294,10 @@ let lastY
   
   eraserButton.addEventListener('click', toggleErasing);
   retpain.addEventListener("click",stopErasing)
+  morecanvas.addEventListener('click',(e)=>{
+    canvas.width =canvas.width;
+    canvas.height =canvas.height
+  })
 //кнопка полного стирания
 const deleteit = () =>{
   context.clearRect(0, 0, canvas.width, canvas.height)
@@ -397,5 +397,23 @@ window.addEventListener('resize', function() {
     context.drawImage(img, 0, 0, canvas.width, canvas.height);
   };
 });
-
+let tip = document.getElementById("tip")
+// добвление текста
+let textinput = document.getElementById("text-input")
+textinput.addEventListener("input",(e) =>{
+  const lengt = e.target.value
+  if(lengt.length>=2){tip.innerText = "Нажмите 2 раза чтобы добавить "
+  tip.style.display = "block"}
+  else{
+    tip.style.display = "none"}
+  }
+)
+const text = textinput.value
+canvas.addEventListener('fullscreenchange',()=>{
+  alert("fuck")
+})
+canvas.addEventListener('dblclick',(event)=>{
+  const { offsetX, offsetY } = event;
+  context.fillText(textinput.value,offsetX,offsetY)
+})
 //console.log(addfoto.value)*/
