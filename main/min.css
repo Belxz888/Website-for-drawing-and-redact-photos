@@ -1,0 +1,54 @@
+* { box-sizing: border-box; }
+.fake-page {
+  width: 400px;
+  height: 500px;
+  position: relative;
+  border: 10px solid black;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.scrollbar {
+  width: 4%;
+  height: 20%;
+  position: absolute;
+  top: 2%;
+  right: 2%;
+  background-color: black;
+  border-radius: 50px;
+}
+.content {
+  position: absolute;
+  top: 60%;
+  left: 30%;
+  width: 50%;
+  height: 20%;
+  border-radius: 10px;
+  background-color: black;
+}
+.focus {
+  background-color: blue;
+  width: 90%;
+  height: 10%;
+  border-radius: 10px;
+  position: absolute;
+  top: 85%;
+  left: 2%;
+}
+.maincan{
+  margin-top: 5%;
+  border: 5px solid silver;
+  cursor:crosshair;
+  align-items: left;
+  position: absolute;
+  margin-left: 5%;
+}
+#main-block{
+  width: 500px;
+  height: 500px;
+  background-color:cadetblue;
+  display: block;
+}
+#buttons{
+  margin-left: 50%;
+  display: block;
+}
