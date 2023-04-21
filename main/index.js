@@ -222,6 +222,7 @@ console.log(otherfilter(filterarr , (index) => index % 2 ==0))
 */
 const filter = document.querySelector(".filter")
 let main = document.getElementById("change-color")
+let backgroundcolor = document.getElementById("change-bck")
 main.addEventListener("input",function getcolor(event){
 filter.innerHTML = event.target.value;
 const colors = event.target.value;
@@ -242,8 +243,10 @@ const canvas = document.querySelector(".maincan")
 const retpain = document.getElementById("dissmove")
 const morecanvas = document.getElementById("more")
 const eraserButton = document.getElementById('smove');
-canvas.width = 400 
-canvas.height = 200
+canvas.width = 700 
+canvas.height = 400
+ let width = canvas.width;
+ let height =canvas.height
 const context = canvas.getContext("2d")
 let isDrawing = false;
 let isErasing =false;
@@ -281,26 +284,30 @@ let lastY
   
   function toggleErasing() {
     isErasing = true;
+   canvas.style.cursor = "cell"
   }
+  download.style.backgroundColor
   function stopErasing(){
     isErasing = false;
    isSecPaint = true
+   canvas.style.cursor = "crosshair"
   }
-  
+  function backchange(){
+    canvas.style.backgroundColor = backgroundcolor.value
+  }
+  const back = document.getElementById("bck")
   canvas.addEventListener('mousedown', startDrawing);
   canvas.addEventListener('mousemove', draw);
   canvas.addEventListener('mouseup', stopDrawing);
   canvas.addEventListener('mouseout', stopDrawing);
-  
+  back.addEventListener("click",backchange)
   eraserButton.addEventListener('click', toggleErasing);
   retpain.addEventListener("click",stopErasing)
-  morecanvas.addEventListener('click',(e)=>{
-    canvas.width =canvas.width;
-    canvas.height =canvas.height
-  })
+
 //кнопка полного стирания
 const deleteit = () =>{
-  context.clearRect(0, 0, canvas.width, canvas.height)
+  context.clearRect(0, 0, width,height)
+  canvas.style.backgroundColor = "dimgray"
 }
 
 /*const  otkl= (e) =>{
@@ -338,13 +345,15 @@ const ozhenka = () =>{
 }*/
 //Функция увеличения и уменьшения канваса
 const buttoncount = document.getElementById("other")
-buttoncount.addEventListener("click",()=>{canvas.width +=10; canvas.height+=10})
+buttoncount.addEventListener("click",()=>{canvas.width +=10; canvas.height+=10; context.save()})
 //добавить добавление фоток и сделать сливающиеся канвасы также дать возможность добавлять фигуры
 const buttondiscount = document.getElementById("this")
-buttondiscount.addEventListener("click",()=>{canvas.width -=10; canvas.height-=10;context.restore()})
+buttondiscount.addEventListener("click",()=>{canvas.width -=10; canvas.height-=10; context.save();  })
 const add = document.getElementById("fileimg")
+const imgwidth = document.getElementById("width")
+const imgheight = document.getElementById("height")
 var reader = new FileReader();
-
+var img = new Image();
 // Функция, которая будет вызвана при загрузке изображения
 reader.onload = function(event){
     // Создаем новый объект изображения
@@ -355,10 +364,9 @@ reader.onload = function(event){
     img.onload = function(){
       var width = img.width;
       var height = img.height;
-    
       // Максимальная ширина и высота, которые могут быть нарисованы на канвасе
-      var maxWidth = canvas.width;
-      var maxHeight = canvas.height;
+      var maxWidth = imgwidth.value;
+      var maxHeight =imgheight.value;
     
       // Если ширина и высота изображения больше максимальных значений, то измените их соответственно
       if (width > maxWidth) {
@@ -366,10 +374,15 @@ reader.onload = function(event){
         width = maxWidth;
       }
       if (height > maxHeight) {
-        height = maxHeight;
+        height = maxHeight ;
       }
-        context.drawImage(img,0,0,width,height);
+      /*  context.drawImage(img,0,0,width,height);
+        canvas.style.background = img*/
       };
+      canvas.addEventListener("click",(event) =>{
+        const { offsetX, offsetY } = event;
+        context.drawImage(img,offsetX,offsetY,imgwidth.value,imgheight.value);
+      })
 };
 
 // Функция, которая будет вызвана при изменении элемента input
@@ -382,7 +395,7 @@ add.addEventListener('change',function(event){
         reader.readAsDataURL(file);
     }
 });
-window.addEventListener('resize', function() {
+/*window.addEventListener('resize', function() {
   // Сохраняем текущее изображение на канвасе
   var dataURL = canvas.toDataURL();
 
@@ -394,9 +407,9 @@ window.addEventListener('resize', function() {
   var img = new Image();
   img.src = dataURL;
   img.onload = function() {
-    context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    context.drawImage(img, 0, 0, width,height);
   };
-});
+});*/
 let tip = document.getElementById("tip")
 // добвление текста
 let textinput = document.getElementById("text-input")
@@ -416,4 +429,3 @@ canvas.addEventListener('dblclick',(event)=>{
   const { offsetX, offsetY } = event;
   context.fillText(textinput.value,offsetX,offsetY)
 })
-//console.log(addfoto.value)*/
