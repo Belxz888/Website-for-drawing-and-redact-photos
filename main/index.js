@@ -253,6 +253,7 @@ let isErasing =false;
 let isSecPaint = false;
 let lastX 
 let lastY 
+let stateStack = [];
   function startDrawing(event) {
     const { offsetX, offsetY } = event;
     context.beginPath();
@@ -276,12 +277,23 @@ let lastY
       context.lineTo(offsetX, offsetY);
       context.stroke();
     } 
+    saveState();
   }
   
   function stopDrawing() {
     isDrawing = false;
   }
-  
+  function saveState() {
+    stateStack.push(context.getImageData(0, 0, canvas.width, canvas.height));
+  }
+  function restoreState() {
+    if (stateStack.length > 0) {
+      context.putImageData(stateStack.pop(), 0, 0);
+    }
+  }
+  const bc = document.getElementById("nug").addEventListener("click",()=>{
+    restoreState();
+  })
   function toggleErasing() {
     isErasing = true;
    canvas.style.cursor = "cell"
@@ -352,6 +364,7 @@ buttondiscount.addEventListener("click",()=>{canvas.width -=10; canvas.height-=1
 const add = document.getElementById("fileimg")
 const imgwidth = document.getElementById("width")
 const imgheight = document.getElementById("height")
+let photo = 0 
 var reader = new FileReader();
 var img = new Image();
 // Функция, которая будет вызвана при загрузке изображения
@@ -380,8 +393,14 @@ reader.onload = function(event){
         canvas.style.background = img*/
       };
       canvas.addEventListener("click",(event) =>{
+        photo+=1
+        if(photo>1){
+          event.stopPropagation()
+          //context.drawImage(0);
+        }
         const { offsetX, offsetY } = event;
         context.drawImage(img,offsetX,offsetY,imgwidth.value,imgheight.value);
+      
       })
 };
 
