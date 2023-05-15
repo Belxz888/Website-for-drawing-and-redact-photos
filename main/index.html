@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="min.css">
     <title>FastRedactor.ru</title>
-    <link rel="icon" href="/new-fiches-of-js-es-6/imgs/1663171155_9-mykaleidoscope-ru-p-palitra-sada-oboi-13.jpg"
+    <link rel="icon" href="/new-fiches-of-js-es-6/imgs/1663171155_9-mykaleidoscope-ru-p-palitra-sada-oboi-13.jpg">
 </head>
 <body >
   <script src="index.js" defer></script>
@@ -29,6 +29,9 @@
         <div id="forhead">
       <canvas class="maincan"></canvas>
         </div>
+        <div id="forhed">
+
+        </div>
       <div id="buttons">
       <button  id="smove" >Ластик </button>
       <button id="dissmove" type="button" >Рисовать далее</button>
@@ -39,14 +42,19 @@
       <code id="itog" onpointerdown=""></code> -->
     <button id="bck">Изменить фон</button>
       <button id="download">Скачать</button>
-      <button id="nug">BCK</button>
+      <button id="back">Назад</button>
+      <button onclick="fucks()">KJ</button>
+    </div>
+    <div id="setting">
       <input type="file"id="fileimg" name="imageLoader" title="Load Img" placeholder="Zagruzit"/> 
       <input type="number" id="width" placeholder="Ширина">
       <input type="number" id="height" placeholder="Высота">
-      <input type="color" id="change-color" placeholder="Изменить цвет ручки">
+      <div style="display: block;">
+      <input type="color" id="change-color" placeholder="Изменить цвет ручки"> <p>Color flomaster</p>
+      </div>
       <input type="color" id="change-bck" placeholder="Изменить фон">
       <input type="range" id="change-line"  min="1" max="20" value="5">
-      <input type="text" placeholder="Добавить текст" id="text-input"> 
+      <input type="text" placeholder="Добавить текст" id="dbltext"> 
     <p id="tip"></p>
     </div>
     </div>   

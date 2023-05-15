@@ -220,11 +220,10 @@ return filterfun;
 }
 console.log(otherfilter(filterarr , (index) => index % 2 ==0))
 */
-const filter = document.querySelector(".filter")
+//цвет для шрифта и бекгрунда
 let main = document.getElementById("change-color")
 let backgroundcolor = document.getElementById("change-bck")
 main.addEventListener("input",function getcolor(event){
-filter.innerHTML = event.target.value;
 const colors = event.target.value;
 filter.style.color = colors;
 const element = document.querySelector(".min")
@@ -236,7 +235,7 @@ Leue nene opere likur
 
 
 //element.innerHTML = `<p> ${norm} px</p>`
-
+//пропсы для канваса
 const download = document.getElementById("download")
 const linewid = document.getElementById("change-line")
 const canvas = document.querySelector(".maincan")
@@ -254,13 +253,19 @@ let isSecPaint = false;
 let lastX 
 let lastY 
 let stateStack = [];
+//начало рисования 
   function startDrawing(event) {
     const { offsetX, offsetY } = event;
     context.beginPath();
     context.moveTo(offsetX, offsetY);
     isDrawing = true;
   }
-  
+  //создание нового канваса (пока не удачно)
+  const fuck = () =>{
+    leto.innerHTML = `<canvas class="maincan"> </canvas>
+    `
+    }
+    //главная функция рисования
   function draw(event) {
     if (!isDrawing) return;
     const { offsetX, offsetY } = event;
@@ -279,35 +284,40 @@ let stateStack = [];
     } 
     saveState();
   }
-  
   function stopDrawing() {
     isDrawing = false;
   }
+  //пуш в стек  
   function saveState() {
     stateStack.push(context.getImageData(0, 0, canvas.width, canvas.height));
   }
+  //запись в стек для испольнения функции
   function restoreState() {
     if (stateStack.length > 0) {
-      context.putImageData(stateStack.pop(), 0, 0);
+      context.putImageData(stateStack.pop(10), 0, 0);
     }
   }
-  const bc = document.getElementById("nug").addEventListener("click",()=>{
+ //функия обратного действия
+  const backstate = document.getElementById("back").addEventListener("click",()=>{
     restoreState();
   })
+  //функция стирания
   function toggleErasing() {
     isErasing = true;
    canvas.style.cursor = "cell"
   }
-  download.style.backgroundColor
+  //начало рисования после стирания
   function stopErasing(){
     isErasing = false;
    isSecPaint = true
    canvas.style.cursor = "crosshair"
   }
+  //изменение бекграунд цвета
   function backchange(){
     canvas.style.backgroundColor = backgroundcolor.value
   }
   const back = document.getElementById("bck")
+  //привязывание функции к слушателям
   canvas.addEventListener('mousedown', startDrawing);
   canvas.addEventListener('mousemove', draw);
   canvas.addEventListener('mouseup', stopDrawing);
@@ -321,7 +331,7 @@ const deleteit = () =>{
   context.clearRect(0, 0, width,height)
   canvas.style.backgroundColor = "dimgray"
 }
-
+//console.log(stateStack)
 /*const  otkl= (e) =>{
     isErasing = false;
     isDrawing= true;
@@ -355,12 +365,16 @@ const ozhenka = () =>{
   fetch('/main.json').then(response => response.json())
   .then(data => {data.forEach(give =>{console.log(give.powers)})})
 }*/
+
 //Функция увеличения и уменьшения канваса
 const buttoncount = document.getElementById("other")
-buttoncount.addEventListener("click",()=>{canvas.width +=10; canvas.height+=10; context.save()})
+buttoncount.addEventListener("click",()=>{
+  canvas.width +=10; canvas.height+=10;
+
+  })
 //добавить добавление фоток и сделать сливающиеся канвасы также дать возможность добавлять фигуры
 const buttondiscount = document.getElementById("this")
-buttondiscount.addEventListener("click",()=>{canvas.width -=10; canvas.height-=10; context.save();  })
+buttondiscount.addEventListener("click",()=>{canvas.width -=10; canvas.height-=10;  })
 const add = document.getElementById("fileimg")
 const imgwidth = document.getElementById("width")
 const imgheight = document.getElementById("height")
@@ -392,18 +406,47 @@ reader.onload = function(event){
       /*  context.drawImage(img,0,0,width,height);
         canvas.style.background = img*/
       };
-      canvas.addEventListener("click",(event) =>{
-        photo+=1
-        if(photo>1){
-          event.stopPropagation()
-          //context.drawImage(0);
-        }
+      let imgs = document.getElementById("fileimg")
+     canvas.addEventListener("dblclick",(event)=>{
         const { offsetX, offsetY } = event;
         context.drawImage(img,offsetX,offsetY,imgwidth.value,imgheight.value);
-      
-      })
-};
 
+     })
+     // canvas.addEventListener("click"
+      imgs.onchange(doid())
+
+      var savedImage = new Image();
+
+      // Рисуем на канвасе
+      
+      // Сохраняем нарисованное изображение в объект
+      savedImage.src = canvas.toDataURL();
+      
+      // Обработчик события изменения размера канваса
+      window.addEventListener('resize', function() {
+        // Сохраняем текущий размер канваса
+        var oldWidth = canvas.width;
+        var oldHeight = canvas.height;
+      
+        // Изменяем размер канваса
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      
+        // Рисуем сохраненное изображение на новом канвасе
+        context.drawImage(savedImage, 0, 0, oldWidth, oldHeight, 0, 0, canvas.width, canvas.height);
+      });
+    canvas.addEventListener('resize', function() {
+        // Сохраняем текущий размер канваса
+        var oldWidth = canvas.width;
+        var oldHeight = canvas.height;
+      
+        // Изменяем размер канваса
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      
+        // Рисуем сохраненное изображение на новом канвасе
+        context.drawImage(savedImage, 0, 0, oldWidth, oldHeight, 0, 0, canvas.width, canvas.height);
+      });
 // Функция, которая будет вызвана при изменении элемента input
 add.addEventListener('change',function(event){
     // Получаем файл, выбранный пользователем
@@ -429,9 +472,10 @@ add.addEventListener('change',function(event){
     context.drawImage(img, 0, 0, width,height);
   };
 });*/
+// Рисуем на канвасе
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 let tip = document.getElementById("tip")
 // добвление текста
-let textinput = document.getElementById("text-input")
 textinput.addEventListener("input",(e) =>{
   const lengt = e.target.value
   if(lengt.length>=2){tip.innerText = "Нажмите 2 раза чтобы добавить "
@@ -444,7 +488,13 @@ const text = textinput.value
 canvas.addEventListener('fullscreenchange',()=>{
   alert("fuck")
 })
+}
 canvas.addEventListener('dblclick',(event)=>{
+  let textinput = document.getElementById("dbltext")
   const { offsetX, offsetY } = event;
   context.fillText(textinput.value,offsetX,offsetY)
 })
+// Устанавливаем ширину и высоту канваса
+
+// Получаем контекст рисования
+
